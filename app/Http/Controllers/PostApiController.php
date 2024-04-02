@@ -11,7 +11,6 @@ use App\Services\ImageService;
 class PostApiController extends Controller
 {
   private $imageService;
-  private $imageUrls;
 
   public function __construct(ImageService $imageService)
   {
@@ -74,26 +73,6 @@ class PostApiController extends Controller
       ]);
     }
   }
-  // public function uploadUpdate(Request $request)
-  // {   
-  //   if($request->hasFile('upload'))
-  //   {
-  //     $file = $request->file('upload');
-  //     $updatedTitle = $request->title ?? 'anonymous_blog';
-  //     $filename = Str::slug($updatedTitle);
-  //     $image_folder = "image/blog/" . $filename;
-  //     $image_file_name = $filename;
-  //     $image_tags = ["blog"];
-
-  //     $image_url = $this->imageService->uploadFile($image_folder, $file, $image_file_name, $image_tags);
-  
-  //     return response()->json([
-  //       'filename' => $filename, 
-  //       'uploaded' => 1, 
-  //       'url' => $image_url
-  //     ]);
-  //   }
-  // }
 
   public function create(Request $request)
 {
