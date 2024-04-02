@@ -4,19 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\PostImage;
+use App\Models\Post;
 
-class Post extends Model
+class PostImage extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-      'title',
-      'description',
+      'image_url',
+
+      'post_id',
     ];
 
-    public function images()
+    public function post()
     {
-      return $this->hasMany(PostImage::class);
+      return $this->belongsTo(Post::class);
     }
 }

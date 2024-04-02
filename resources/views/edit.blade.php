@@ -10,7 +10,7 @@
 </head>
 <body>
   <h1>CK Editor Create Post</h1>
-  <form action="{{ route('update', $post->id) }}" method="POST">
+  <form action="{{ route('update.api', $post->id) }}" method="POST">
     @csrf
     @method('PUT')
     <div>
@@ -52,7 +52,7 @@
         const titleValue = document.getElementById('title').value;
         const csrfToken = '{{ csrf_token() }}';
         const title = titleValue.replace(/\s+/g, '-');
-        return `{{ route('ckeditor.upload.update') }}?_token=${encodeURIComponent(csrfToken)}&title=${encodeURIComponent(title)}&postId=${postId}`;
+        return `{{ route('ckeditor.upload.api') }}?_token=${encodeURIComponent(csrfToken)}&title=${encodeURIComponent(title)}&postId=${postId}`;
     }
 
     // Function to destroy and reinitialize CKEditor with the updated upload URL

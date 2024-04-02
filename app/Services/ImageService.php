@@ -23,7 +23,7 @@ class ImageService
 
         $existing_file_id = $existing_file->result[0]->fileId;
 
-        $delete = $this->imageKit->deleteFile($existing_file_id);
+        $this->imageKit->deleteFile($existing_file_id);
     }
 
     public function uploadFile($folder, $file, $fileName, $tags) 
@@ -49,5 +49,65 @@ class ImageService
     public function deleteFolder($folder) 
     {
       $this->imageKit->deleteFolder($folder);
+    }
+
+    public function moveFolder($source_folder, $destination_folder) 
+    {
+      $this->imageKit->moveFolder([
+          'sourceFolderPath' => $source_folder,
+          'destinationPath' => $destination_folder
+      ]);
+    }
+
+    public function listFilesInFolder($folder) 
+    {
+      $listFiles = $this->imageKit->listFiles(array(
+        "path" => $folder,
+      ));
+
+      $files = $listFiles->result;
+    
+      foreach ($files as $file)
+      {
+        $listFilePath[] = $file;
+      } 
+
+      return $listFilePath;
+    }
+
+    public function moveFilesInFolder($source_folder, $destination_folder) 
+    {
+      $files = $this->listFilesInFolder($source_folder);
+
+      foreach ($files as $file)
+      {
+        $filePath = $file->filePath;
+        $this->imageKit->move([
+          'sourceFilePath' => $filePath,
+          'destinationPath' => $destination_folder
+        ]);
+      }
+
+      return $destination_folder;
+    }
+
+    public function moveAndRenameFilesToFolder($source_folder, $destination_folder, $newName) 
+    {
+      $destination_folder = $this->moveFilesInFolder($source_folder, $destination_folder);
+
+      $files = $this->listFilesInFolder($destination_folder);
+
+      foreach ($files as $file)
+      {
+        $previousPath = $file->filePath;
+        $previousName = $file->name;
+        $extension = pathinfo($previousName, PATHINFO_EXTENSION);
+        $file_name = $newName . "-" . time(). "." . $extension;
+        $this->imageKit->rename([
+          'filePath' => $previousPath,
+          'newFileName' => $file_name,
+          'purgeCache' => true,
+        ]);
+      }
     }
 }

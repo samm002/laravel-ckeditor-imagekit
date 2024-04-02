@@ -25,8 +25,10 @@ Route::get('/{post_id}/edit', [PostApiController::class, 'edit'])->name('edit.ap
 Route::get('/showAll', [PostApiController::class, 'showAll'])->name('showAll.api');
 Route::get('/show/{post_id}', [PostApiController::class, 'show'])->name('show.api');
 
-Route::post('/upload_create', [PostApiController::class, 'uploadCreate'])->name('ckeditor.upload.create.api');
-Route::post('/upload_update', [PostApiController::class, 'uploadUpdate'])->name('ckeditor.upload.update.api');
+Route::post('/upload', [PostApiController::class, 'uploadCreate'])->name('ckeditor.upload.api');
 Route::post('/create', [PostApiController::class, 'create'])->name('create.api');
 Route::put('/{post_id}/update', [PostApiController::class, 'update'])->name('update.api');
 Route::delete('/{post_id}/delete', [PostApiController::class, 'delete'])->name('delete.api');
+
+// testing purposes
+Route::get('/getFiles/{post_id}', [PostApiController::class, 'getFileFromFolder']);
