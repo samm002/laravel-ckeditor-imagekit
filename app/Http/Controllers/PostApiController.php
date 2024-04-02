@@ -31,29 +31,7 @@ class PostApiController extends Controller
     return $imageUrls;
   }
 
-  public function getFileFromFolder(string $id)
-  {
-    $post = Post::find($id);
-    $title = Str::slug($post->title);
-    $folder = "image/blog/" . $title;
-    $listFiles = $this->imageService->listFilesInFolder($folder)[0]->name;
-    $extension = pathinfo($listFiles, PATHINFO_EXTENSION);
-
-    return response()->json([
-      'status' => 'success',
-      'message' => 'List Files from folder ' . $folder . ' success',
-      'folder' => $folder,
-      'data' => $listFiles,
-      'extension' => $extension,
-    ]);
-  }
-
-  public function postForm()
-  {
-    return view('create');
-  }
-
-  public function uploadCreate(Request $request)
+  public function upload(Request $request)
   {
     if($request->hasFile('upload'))
     {
@@ -156,10 +134,10 @@ class PostApiController extends Controller
       ], 200);
     }
     
-    public function showAll()
-    {
-      $posts = Post::all();
-      
+  public function showAll()
+  {
+    $posts = Post::all();
+    
     return response()->json([
       'status' => 'success', 
       'message' => 'get all post success',
